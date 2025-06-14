@@ -1,0 +1,18 @@
+| Método | Ruta                          | Descripción                         |
+| ------ | ----------------------------- | ----------------------------------- |
+| GET    | `/api/tareas`                 | Obtener todas las tareas            |
+| GET    | `/api/tareas/materia/:nombre` | Buscar tareas por nombre de materia |
+| GET    | `/api/tareas/nombre/:nombre`  | Buscar tareas por nombre de tarea   |
+| POST   | `/api/tareas`                 | Crear una nueva tarea               |
+| PUT    | `/api/tareas/:id`             | Actualizar una tarea                |
+| DELETE | `/api/tareas/:id`             | Eliminar una tarea                  |
+
+
+| Método | Ruta                           | Descripción                               |
+| ------ | ------------------------------ | ----------------------------------------- |
+| GET    | `/api/materias`                | Obtener todas las materias                |
+| GET    | `/api/materias/nombre/:nombre` | Buscar materias por nombre                |
+| GET    | `/api/materias/tareas/:nombre` | Obtener tareas de una materia por nombre  |
+| POST   | `/api/materias`                | Crear una nueva materia                   |
+| PUT    | `/api/materias/:id`            | Actualizar una materia existente          |
+| DELETE | `/api/materias/:id`            | Eliminar una materia (si no tiene tareas) |

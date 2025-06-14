@@ -1,0 +1,147 @@
+Claro, aquí tienes un archivo de texto con **todas las instrucciones detalladas paso a paso** para mover e instalar tu proyecto completo en otra PC con Windows. Incluye:
+
+* Instalación de dependencias
+* Creación de la base de datos en MySQL
+* Comandos para levantar el servidor
+* Verificación del frontend
+
+---
+
+### 📄 `INSTALACION_PROYECTO.txt`
+
+```
+===========================
+INSTALACIÓN DEL SISTEMA DE GESTIÓN DE TAREAS
+===========================
+
+📌 REQUISITOS PREVIOS (instalados en la nueva PC)
+--------------------------------------------------
+1. Node.js y npm → https://nodejs.org/
+2. MySQL Server (con Workbench opcional)
+3. Visual Studio Code
+4. Extensión MySQL de Jun Han (opcional, solo para consultas)
+
+===========================
+PASO 1 - CLONAR EL PROYECTO
+===========================
+
+1. Copia la carpeta completa del proyecto: `mi-app-tareas/` a la nueva máquina.
+   Ejemplo estructura:
+   mi-app-tareas/
+   ├── backend/
+   ├── public/
+   └── package.json
+
+2. Abre Visual Studio Code y abre esta carpeta desde VSCode:
+   Archivo > Abrir Carpeta > Selecciona `mi-app-tareas/`
+
+===============================
+PASO 2 - INSTALAR DEPENDENCIAS
+===============================
+
+Abre la terminal de Visual Studio Code (Ctrl + ñ) y escribe:
+
+```
+
+npm install
+
+````
+
+Esto instalará: `express`, `mysql2`, `cors`, `nodemon` (si está en devDependencies)
+
+===============================
+PASO 3 - CREAR LA BASE DE DATOS
+===============================
+
+Abre MySQL Workbench o la consola de MySQL y ejecuta esto:
+
+```sql
+CREATE DATABASE gestion_tareas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE gestion_tareas;
+
+CREATE TABLE materias (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  color VARCHAR(20)
+);
+
+CREATE TABLE tareas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  titulo VARCHAR(255) NOT NULL,
+  fecha_creacion DATE,
+  materia_id INT,
+  FOREIGN KEY (materia_id) REFERENCES materias(id) ON DELETE CASCADE
+);
+````
+
+\===============================
+PASO 4 - CONFIGURAR CONEXIÓN
+============================
+
+Abre el archivo: `backend/db.js`
+
+Verifica que la conexión tenga tus credenciales de MySQL, ejemplo:
+
+```js
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: 'root',   // <-- cambia según tu contraseña
+    database: 'gestion_tareas',
+    multipleStatements: true,
+    charset: 'utf8mb4',
+    decimalNumbers: true,
+});
+```
+
+\===========================
+PASO 5 - INICIAR EL SERVIDOR
+============================
+
+Desde la raíz del proyecto, ejecuta en terminal:
+
+```bash
+npm run dev
+```
+
+Esto usa `nodemon` y ejecutará `backend/server.js`.
+
+Si no quieres usar nodemon:
+
+```bash
+node backend/server.js
+```
+
+\===========================
+PASO 6 - ABRIR LA APLICACIÓN
+============================
+
+Abre tu navegador web y ve a:
+
+```
+http://localhost:3000
+```
+
+La interfaz debería mostrar formularios para crear materias, tareas, buscarlas y eliminarlas.
+
+\============================
+✔️ COMANDOS RESUMEN
+===================
+
+# Instalación de paquetes
+
+npm install
+
+# Crear la base de datos (en MySQL)
+
+CREATE DATABASE gestion\_tareas;
+... (ver estructura arriba)
+
+# Iniciar servidor backend
+
+npm run dev
+
+# Ir al navegador
+
+[http://localhost:3000](http://localhost:3000)

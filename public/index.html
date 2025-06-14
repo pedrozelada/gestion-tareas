@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Gestión de Tareas y Materias</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body class="bg-light">
+    <!-- Agrega esto al principio del body, antes del container -->
+<div id="auth-forms" class="container py-5" style="max-width: 500px; display: none;">
+  <div class="card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs" id="auth-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" id="login-tab" data-bs-toggle="tab" href="#login">Iniciar Sesión</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="register-tab" data-bs-toggle="tab" href="#register">Registrarse</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card-body">
+      <div class="tab-content">
+        <!-- Login Form -->
+        <div class="tab-pane fade show active" id="login">
+          <form id="login-form" onsubmit="event.preventDefault(); loginUser();">
+            <div class="mb-3">
+              <label for="login-email" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="login-email" required>
+            </div>
+            <div class="mb-3">
+              <label for="login-password" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="login-password" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+          </form>
+        </div>
+        
+        <!-- Register Form -->
+        <div class="tab-pane fade" id="register">
+          <form id="register-form" onsubmit="event.preventDefault(); registerUser();">
+            <div class="mb-3">
+              <label for="register-name" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="register-name" required>
+            </div>
+            <div class="mb-3">
+              <label for="register-email" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="register-email" required>
+            </div>
+            <div class="mb-3">
+              <label for="register-password" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="register-password" required minlength="6">
+            </div>
+            <button type="submit" class="btn btn-success w-100">Registrarse</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="app-content" style="display: none;">
+    
+  <!-- Barra superior con bienvenida y logout -->
+    
+
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
+        <div id="welcome-message" class="fw-bold">
+        ¡Bienvenido, <span id="username-display"></span>!
+        </div>
+        <button class="btn btn-sm btn-outline-danger" onclick="logout()">
+        <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+        </button>
+     </div>
+        <h1 class="mb-4 text-center">Gestión de Tareas y Materias</h1>
+    
+        <!-- Sección de filtros -->
+        <div class="row g-4 mb-3">
+            <div class="col-md-6">
+                <input type="text" id="buscarMateria" class="form-control" placeholder="Buscar materia...">
+            </div>
+            <div class="col-md-6">
+                <input type="text" id="buscarTarea" class="form-control" placeholder="Buscar tarea...">
+            </div>
+        </div>
+
+        <!-- Formularios de creación -->
+        <div class="row g-4 mb-4">
+            <!-- Formulario Materia -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Agregar Materia</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="formMateria" class="d-flex flex-column gap-2">
+                            <input type="text" id="nombreMateria" class="form-control" placeholder="Nombre de la materia" required />
+                            <input type="color" id="colorMateria" class="form-control form-control-color" value="#563d7c" title="Elige un color">
+                            <button type="submit" class="btn btn-primary">Agregar Materia</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario Tarea -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Agregar Tarea</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="formTarea" class="d-flex flex-column gap-2">
+                            <select id="materiaTarea" class="form-select" required></select>
+                            <input type="text" id="tituloTarea" class="form-control" placeholder="Título de la tarea" required />
+                            <textarea id="descripcionTarea" class="form-control" placeholder="Descripción"></textarea>
+                            <input type="date" id="fechaEntrega" class="form-control" required />
+                            <button type="submit" class="btn btn-success">Agregar Tarea</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Listados -->
+        <div class="row g-4">
+            <!-- Lista Materias -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Materias Registradas</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul id="listaMaterias" class="list-group"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista Tareas -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Tareas Registradas</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul id="listaTareas" class="list-group"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de edición de tarea -->
+        <div class="modal fade" id="modalEditarTarea" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Editar Tarea</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEditarTarea" class="d-flex flex-column gap-2">
+                            <input type="hidden" id="editTareaId" />
+                            <select id="editMateriaTarea" class="form-select" required></select>
+                            <input type="text" id="editTituloTarea" class="form-control" required />
+                            <textarea id="editDescripcionTarea" class="form-control"></textarea>
+                            <input type="date" id="editFechaEntrega" class="form-control" required />
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" form="formEditarTarea">Guardar Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/app.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,77 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+/* === Estilos Globales === */
+body {
+  background: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  padding-top: 2rem;
+}
+
+h1, h2 {
+  color: #222;
+  font-weight: 700;
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.btn-primary {
+  background-color: #4e73df;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #3b5bdc;
+}
+
+input.form-control, select.form-control {
+  border-radius: 0.5rem;
+}
+
+.list-group-item {
+  border: none;
+  border-bottom: 1px solid #eee;
+  font-size: 0.95rem;
+}
+
+.badge {
+  font-size: 1rem;
+}
+
+/* === Tareas con fondo de color === */
+.tarea-item {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  color: #fff; /* texto blanco por defecto */
+  transition: transform 0.2s;
+}
+
+.tarea-item:hover {
+  transform: scale(1.01);
+}
+
+/* Clases para textos oscuros si el fondo es claro (se aplica dinámicamente en JS) */
+.text-dark-over {
+  color: #222 !important;
+}
+
+/* === Responsive Mejorado === */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .list-group-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
